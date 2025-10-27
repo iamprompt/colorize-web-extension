@@ -4,13 +4,13 @@ function addColorizeStylesheet(colorizeMode) {
     const styleElement = document.createElement("style")
     styleElement.id = "colorize-stylesheets"
     styleElement.setAttribute("type", "text/css")
-    document.head.appendChild(styleElement)
+    document.body.appendChild(styleElement)
   }
 
   switch (colorizeMode) {
     case "GRAYSCALE": {
       colorizeStylesheet.innerHTML =
-        "html *, * { filter: grayscale(100%) !important; }"
+        "html, html *, * { filter: grayscale(100%) !important; }"
       break
     }
     case "ORIGINAL": {
@@ -19,7 +19,8 @@ function addColorizeStylesheet(colorizeMode) {
     }
     case "COLORIZE":
     default: {
-      colorizeStylesheet.innerHTML = "html *, * { filter: initial !important; }"
+      colorizeStylesheet.innerHTML =
+        "html, html *, * { filter: initial !important; }"
       break
     }
   }

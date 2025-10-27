@@ -4,7 +4,7 @@ function addColorizeStylesheet() {
   if (!colorizeStylesheets) {
     colorizeStylesheets = document.createElement("style")
     colorizeStylesheets.id = "colorize-stylesheets"
-    document.head.appendChild(colorizeStylesheets)
+    document.body.appendChild(colorizeStylesheets)
   }
   colorizeStylesheets.setAttribute("type", "text/css")
 }
