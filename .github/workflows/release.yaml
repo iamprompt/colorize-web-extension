@@ -1,0 +1,38 @@
+name: Release Extension
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  pack-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set Version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Display Version
+        run: echo "Releasing version $VERSION"
+
+      - name: Modify manifest.json
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          jq --arg ver "$VERSION" '.version = $ver' manifest.json > manifest.tmp.json
+          mv manifest.tmp.json manifest.json
+
+      - name: Prepare Extension
+        run: |
+          zip -r extension.zip ./manifest.json ./scripts ./sites ./images
+
+      - name: Release Artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: colorize-extension-$VERSION.zip
+          path: ./extension.zip
