@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Colorize - เพิ่มสีสันให้เว็บไซต์",
+  "description": "เพิ่มสีสันให้เว็บไซต์ที่คุณเยี่ยมชมด้วยโหมดสีขาวดำและตัวเลือกการปรับแต่งสีสันต่าง ๆ",
+  "version": "1.0.2",
+  "permissions": ["storage"],
+  "background": {
+    "service_worker": "scripts/background.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "images/colorize_on-16px.png",
+      "32": "images/colorize_on-32px.png",
+      "48": "images/colorize_on-48px.png",
+      "128": "images/colorize_on-128px.png"
+    },
+    "default_title": "ปิดโหมดสีสัน"
+  },
+  "icons": {
+    "16": "images/colorize_on-16px.png",
+    "32": "images/colorize_on-32px.png",
+    "48": "images/colorize_on-48px.png",
+    "128": "images/colorize_on-128px.png"
+  },
+  "content_scripts": [
+    {
+      "js": ["scripts/add-stylesheets.js", "scripts/init-colorize-mode.js"],
+      "matches": ["https://*/*", "http://*/*"],
+      "all_frames": true,
+      "run_at": "document_end"
+    },
+    {
+      "js": ["sites/bigc.js"],
+      "matches": ["https://www.bigc.co.th/*"],
+      "all_frames": true,
+      "run_at": "document_end"
+    }
+  ]
+}
