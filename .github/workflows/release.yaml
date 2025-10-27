@@ -16,6 +16,7 @@ jobs:
       - name: Set Version
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION_WITH_PREFIX=v$VERSION" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Display Version
@@ -34,14 +35,13 @@ jobs:
       - name: Release Artifact
         uses: actions/upload-artifact@v5
         with:
-          name: colorize-extension-$VERSION.zip
+          name: colorize-extension-${{ env.VERSION_WITH_PREFIX }}.zip
           path: ./extension.zip
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
-          name: Release ${{ github.ref }}
-          body: "Release of version ${{ github.ref }}"
+          name: Release ${{ env.VERSION }}
+          body: "Release of ${{ env.VERSION }}"
           files: ./extension.zip
-          token: ${{ secrets.GITHUB_TOKEN }}
